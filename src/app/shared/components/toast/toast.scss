@@ -1,0 +1,16 @@
+.toast-container {
+  z-index: 1055;
+}
+
+.toast {
+  min-width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toast-header {
+  font-weight: bold;
+}
+
+.toast-body {
+  font-size: 14px;
+}
