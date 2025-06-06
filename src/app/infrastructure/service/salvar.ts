@@ -21,6 +21,16 @@ export class Salvar {
     });
   }
 
+  salvarSetor(setor: any): Promise<any> {
+    return firstValueFrom(this.http.post<any>(Enviroments.API_URL_SETOR, setor)).then(response => {
+      console.log('Setor salvo com sucesso:', response);
+      return response;
+    }).catch(error => {
+      console.error('Erro ao salvar setor:', error);
+      throw error;
+    });
+  }
+
   
 
 

@@ -21,5 +21,16 @@ export class Excluir {
         });
     }
 
+    excluirSetor(id: number): Promise<any> {
+        return this.http.delete<any>(`${Enviroments.API_URL_SETOR}/${id}`).toPromise()
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            console.error('Erro ao excluir setor:', error);
+            throw error;
+        });
+    }
+
 
 }

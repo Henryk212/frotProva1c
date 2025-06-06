@@ -8,17 +8,35 @@ import { Enviroments } from '../configuracoes/enviroments';
 })
 export class Buscar {
 
-  private readonly apiUrl: string = Enviroments.API_URL_CARGO;
+  private readonly apiUrlCargo: string = Enviroments.API_URL_CARGO;
+  private readonly apiUrlSetor: string = Enviroments.API_URL_SETOR;
+  
   private readonly http = inject(HttpClient);
 
   private readonly cargosListSignal = signal<any[]>([]);
   readonly cargosList: Signal<any[]> = this.cargosListSignal.asReadonly()
 
+  private readonly setorListSignal = signal<any[]>([]);
+  readonly setorList: Signal<any[]> = this.setorListSignal.asReadonly()
+
+
+
   buscarCargos() {
-    return firstValueFrom(this.http.get<any[]>(this.apiUrl)).then(response => {
+    return firstValueFrom(this.http.get<any[]>(this.apiUrlCargo)).then(response => {
       this.updateCargosList(response);
       return response;
     });
+  }
+
+  buscarSetor() {
+    return firstValueFrom(this.http.get<any[]>(this.apiUrlSetor)).then(response => {
+      this.updateSetorList(response);
+      return response;
+    });
+  }
+
+  private updateSetorList(setores: any[]) {
+    this.setorListSignal.set(setores);
   }
 
   private updateCargosList(cargos: any[]) {
