@@ -7,10 +7,20 @@
         <div class="col-6">
             <ul class="nav justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link text-white" routerLink="/funcionario">Funcionários</a>
+                    <a class="nav-link text-white" routerLink="/cadastro-funcionario">Funcionários</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" routerLink="/pessoas">Pessoas</a>
+              <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="dropdownPessoas" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Pessoas
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownPessoas">
+                        <li>
+                            <a class="dropdown-item" routerLink="/pessoa-cadastro">Cadastrar Pessoa</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/pessoa-listar">Listar Pessoa</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item cursor-pointer">
                     <a class="nav-link text-white" routerLink="/cargo">Cargos</a>

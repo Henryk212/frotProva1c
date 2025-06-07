@@ -32,5 +32,27 @@ export class Excluir {
         });
     }
 
+    excluirPessoa(id: number): Promise<any> {
+        return this.http.delete<any>(`${Enviroments.API_URL_PESSOA}/${id}`).toPromise()
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            console.error('Erro ao excluir pessoa:', error);
+            throw error;
+        });
+    }
+
+    excluirFuncionario(id: number): Promise<any> {
+        return this.http.delete<any>(`${Enviroments.API_URL_FUNCIONARIO}/${id}`).toPromise()
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            console.error('Erro ao excluir funcionário:', error);
+            throw error;
+        });
+    }
+
 
 }

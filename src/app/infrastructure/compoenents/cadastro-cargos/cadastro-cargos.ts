@@ -77,11 +77,15 @@ export class CadastroCargos {
   }
 
   excluirCargo(cargo: any) {
-    this.excluirService.excluirCargo(cargo).then(() => {
-      this.buscarService.buscarCargos();
-    }).catch(error => {
-      console.error('Erro ao excluir cargo:', error);
-    });
+     if (confirm('Tem certeza que deseja excluir este Cargo ?')) {
+      this.excluirService.excluirCargo(cargo).then(() => {
+        alert('Cargo excluído com sucesso!');
+        this.buscarService.buscarCargos();
+      }).catch(error => {
+        console.error('Erro ao excluir Cargo:', error);
+      });
+    }
+    
   }
 
   salvarEditarCargo(){

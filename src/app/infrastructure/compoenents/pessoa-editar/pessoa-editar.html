@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-12">
-        <h1 class="text-center">Cadastro de Pessoas</h1>
+        <h1 class="text-center">Editar Pessoa</h1>
     </div>
 </div>
 <div class="container my-3">
     <div class="row card p-4">
         <div class="col-12">
             <h4 class="text-left mb-3">Formulário de Cadastro</h4>
-            <form [formGroup]="pessoaForm">
+            <form [formGroup]="pessoaEditarForm">
                 <div class="col-12 d-flex align-items-end">
                     <div class="mb-3 mx-3 col-4">
                         <label for="nome" class="form-label">Nome Completo</label>
@@ -45,11 +45,11 @@
                     </div>
                 </div>
             </form>
-            <form [formGroup]="enderecoForm">
+            <form [formGroup]="enderecoEditarForm">
                 <div class="col-12 d-flex align-items-end">
                     <div class="mb-3 mx-3 col-2">
                         <label for="cep" class="form-label">Cep</label>
-                        <input type="text" id="cep" formControlName="cep" (blur)="buscarCep()" class="form-control">
+                        <input type="text" id="cep" formControlName="cep" class="form-control">
                     </div>
                     <div class="mb-3 mx-3 col-3">
                         <label for="logradouro" class="form-label">Logradouro</label>
@@ -79,54 +79,11 @@
                     </div>
                 </div>
             </form>
-            <form [formGroup]="dadosBancariosForm">
-                <div class="col-12 d-flex align-items-end">
-                    <div class="mb-3 mx-3 col-4">
-                        <label for="banco" class="form-label">Banco</label>
-                        <input type="text" id="banco" formControlName="banco" class="form-control">
-                    </div>
-                    <div class="mb-3 mx-3 col-4">
-                        <label for="agencia" class="form-label">Agência</label>
-                        <input type="text" id="agencia" formControlName="agencia" class="form-control">
-                    </div>
-                    <div class="mb-3 mx-3 col-2">
-                        <label for="conta" class="form-label">Conta</label>
-                        <input type="text" id="conta" formControlName="conta" class="form-control">
-                    </div>
-                </div>
-                <div class="col-12 d-flex align-items-end">
-                    <div class="mb-3 mx-3 col-4">
-                        <label for="tipoConta" class="form-label">Tipo de Conta</label>
-                        <select id="tipoConta" formControlName="tipoConta" class="form-select">
-                            <option value="" disabled selected>Selecione o tipo de conta</option>
-                            <option value="Corrente">Corrente</option>
-                            <option value="Poupança">Poupança</option>
-                        </select>
-                    </div>
-                    <div class="mb-3 mx-3 col-4">
-                        <label for="cpfTitular" class="form-label">CPF do Titular</label>
-                        <input type="text" id="cpfTitular" formControlName="cpfTitular" class="form-control">
-                    </div>
-                    <div class="mb-3 mx-3 col-2">
-                        <label for="nomeTitular" class="form-label">Nome Titular</label>
-                        <input type="text" id="nomeTitular" formControlName="nomeTitular" class="form-control">
-                    </div>
-                </div>
-                <div class="col-12 d-flex align-items-end">
-                     <div class="mb-3 mx-3 col-2">
-                        <label for="telefoneTitular" class="form-label">Telefone Titular</label>
-                        <input type="text" id="telefoneTitular" formControlName="telefoneTitular" class="form-control">
-                    </div>
-                    <div class="mb-3 mx-3 col-4">
-                        <label for="emailTitular" class="form-label">E-mail Titular</label>
-                        <input type="email" id="emailTitular" formControlName="emailTitular" class="form-control">
-                    </div>
-                </div>
-            </form>
             <div class="col-12 d-flex justify-content-end align-items-end">
                 <button type="submit" class="btn btn-primary mx-2" (click)="salvarPessoa()">Salvar</button>
-                <button type="button" class="btn btn-secondary" (click)="limparCampos()">Limpar</button>
+                <button type="button" class="btn btn-secondary" (click)="limparCampos()">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
+

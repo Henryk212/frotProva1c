@@ -76,11 +76,14 @@ export class CadastroSetor {
   }
 
   excluirSetor(setor: any) {
-    this.excluirService.excluirSetor(setor).then(() => {
-      this.buscarService.buscarSetor();
-    }).catch(error => {
-      console.error('Erro ao excluir cargo:', error);
-    });
+     if (confirm('Tem certeza que deseja excluir este Setor ?')) {
+      this.excluirService.excluirSetor(setor).then(() => {
+        alert('Setor excluído com sucesso!');
+        this.buscarService.buscarSetor();
+      }).catch(error => {
+        console.error('Erro ao excluir Setor:', error);
+      });
+    }
   }
 
   salvarEditarSetor(){
