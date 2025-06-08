@@ -4,6 +4,7 @@ import { Buscar } from '../../service/buscar';
 import { Salvar } from '../../service/salvar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Editar } from '../../service/editar';
 
 @Component({
   selector: 'app-pessoa-editar',
@@ -14,6 +15,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 export class PessoaEditar {
   readonly buscarService = inject(Buscar);
   readonly salvarService = inject(Salvar);
+  readonly editarService = inject(Editar);
   readonly route = inject(ActivatedRoute);
   readonly formBuilder = inject(FormBuilder);
   readonly cdr = inject(ChangeDetectorRef);
@@ -25,6 +27,8 @@ export class PessoaEditar {
 
   constructor() {
     effect(() => {
+      console.log('Pessoa Editar:', this.pessoaEditar());
+      
       this.updateForm();
     });
   }
@@ -42,7 +46,7 @@ export class PessoaEditar {
   private formatarData(data: string): string {
   const date = new Date(data);
   const ano = date.getFullYear();
-  const mes = String(date.getMonth() + 1).padStart(2, '0'); // Mês começa em 0
+  const mes = String(date.getMonth() + 1).padStart(2, '0');
   const dia = String(date.getDate()).padStart(2, '0');
   return `${ano}-${mes}-${dia}`;
 }
@@ -54,7 +58,11 @@ export class PessoaEditar {
       dataNascimento: [''],
       telefone: [''],
       email: [''],
-      sexo: ['']
+      sexo: [''],
+      id:[''],
+      enderecoID: [''],
+      endereco:[''],
+
     });
 
     this.enderecoEditarForm = this.formBuilder.group({
@@ -64,7 +72,9 @@ export class PessoaEditar {
       complemento: [''],
       bairro: [''],
       cidade: [''],
-      estado: ['']
+      estado: [''],
+      id: [''],
+      tipoLogradouro: [''],
     });
   }
 
@@ -77,7 +87,9 @@ updateForm() {
       dataNascimento: pessoa.dataNascimento ? this.formatarData(pessoa.dataNascimento) : '',
       telefone: pessoa.telefone || '',
       email: pessoa.email || '',
-      sexo: pessoa.sexo || ''
+      sexo: pessoa.sexo || '',
+      id: pessoa.id || '',
+      enderecoID: pessoa.enderecoID || null
     });
 
     if (pessoa.endereco) {
@@ -88,7 +100,9 @@ updateForm() {
         complemento: pessoa.endereco.complemento || '',
         bairro: pessoa.endereco.bairro || '',
         cidade: pessoa.endereco.cidade || '',
-        estado: pessoa.endereco.estado || ''
+        estado: pessoa.endereco.estado || '',
+        id: pessoa.endereco.id || '',
+        tipoLogradouro: pessoa.endereco.tipoLogradouro || ''
       });
     } else {
       console.warn('Endereço não encontrado para a pessoa.');
@@ -102,11 +116,11 @@ updateForm() {
 
   salvarPessoa() {
     if (this.pessoaEditarForm.valid && this.enderecoEditarForm.valid) {
-      const pessoa = {
-        ...this.pessoaEditarForm.value,
-        endereco: this.enderecoEditarForm.value
-      };
-      this.salvarService.salvarPessoa(pessoa).then(() => {
+      const pessoa = {...this.pessoaEditarForm.value,
+                         endereco: this.enderecoEditarForm.value
+        }
+      this.editarService.editarPesaoa(pessoa).then(() => {
+        this.limparCampos();
         this.buscarService.buscarPessoa();
       }).catch(error => {
         console.error('Erro ao salvar Pessoa:', error);
@@ -114,12 +128,6 @@ updateForm() {
     } else {
       Object.keys(this.pessoaEditarForm.controls).forEach(field => {
         const control = this.pessoaEditarForm.get(field);
-        if (control) {
-          control.markAsTouched({ onlySelf: true });
-        }
-      });
-      Object.keys(this.enderecoEditarForm.controls).forEach(field => {
-        const control = this.enderecoEditarForm.get(field);
         if (control) {
           control.markAsTouched({ onlySelf: true });
         }

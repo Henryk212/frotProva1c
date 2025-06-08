@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Buscar } from '../../service/buscar';
 import { Salvar } from '../../service/salvar';
 import { Excluir } from '../../service/excluir';
+import { Editar } from '../../service/editar';
 
 @Component({
   selector: 'app-cadastro-setor',
@@ -18,6 +19,7 @@ export class CadastroSetor {
   readonly buscarService = inject(Buscar);
   readonly salvarService = inject(Salvar);
   readonly excluirService = inject(Excluir);
+  readonly editarService = inject(Editar);
 
   setorForm!: FormGroup;
   setorEditarForm!: FormGroup;
@@ -87,6 +89,22 @@ export class CadastroSetor {
   }
 
   salvarEditarSetor(){
+    if (this.setorEditarForm.valid) {
+      const setor = this.setorEditarForm.value;
+      this.editarService.editarSetor(setor).then(() => {
+        this.limparCamposEdicao();
+        this.buscarService.buscarSetor();
+      }).catch(error => {
+        console.error('Erro ao salvar Setor:', error);
+      });
+    } else {
+      Object.keys(this.setorEditarForm.controls).forEach(field => {
+        const control = this.setorEditarForm.get(field);
+        if (control) {
+          control.markAsTouched({ onlySelf: true });
+        }
+      });
+    }
 
   }
 

@@ -33,16 +33,35 @@ export class CadastroFuncionarios {
   dadosBancarios = computed(() => this.buscarService.dadosBancariosList());
   funcionarios = computed(() => this.buscarService.funcionarioList());
 
+  paginaAtual: number = 1;
+  itensPorPagina: number = 10;
+  get totalPaginas(): number {
+    return Math.ceil(this.funcionarios().length / this.itensPorPagina);
+  }
+  get paginas(): number[] {
+    return Array.from({ length: this.totalPaginas }, (_, i) => i + 1);
+  }
+
+  constructor(){
+    effect(() => {
+      console.log('Cargos:', this.cargos());
+      console.log('Setores:', this.setores());
+      console.log('Pessoas:', this.pessoas());
+      console.log('Dados Bancários:', this.dadosBancarios());
+      console.log('Funcionários:', this.funcionarios());
+    });
+  }
+
   ngOnInit(){
     this.buscarDados();
     this.initFormFuncionario();
+    this.buscarService.buscarFuncionarios();
   }
   
   buscarDados() {
     this.buscarService.buscarCargos();
     this.buscarService.buscarSetor();
     this.buscarService.buscarPessoa();
-    this.buscarService.buscarFuncionarios();
     this.buscarService.buscarDadosBancarios();
   }
 

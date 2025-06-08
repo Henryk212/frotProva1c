@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Buscar } from '../../service/buscar';
 import { Salvar } from '../../service/salvar';
 import { Excluir } from '../../service/excluir';
+import { Editar } from '../../service/editar';
 
 @Component({
   selector: 'app-cadastro-cargos',
@@ -19,6 +20,7 @@ export class CadastroCargos {
   readonly buscarService = inject(Buscar);
   readonly salvarService = inject(Salvar);
   readonly excluirService = inject(Excluir);
+  readonly editarService = inject(Editar);
 
   cargoForm!: FormGroup;
   cargoEditarForm!: FormGroup;
@@ -89,6 +91,22 @@ export class CadastroCargos {
   }
 
   salvarEditarCargo(){
+    if (this.cargoEditarForm.valid) {
+      const cargo = this.cargoEditarForm.value;
+      this.editarService.editarCargo(cargo).then(() => {
+        this.limparCamposEdicao();
+        this.buscarService.buscarCargos()
+      }).catch(error => {
+        console.error('Erro ao editar Cargo:', error);
+      });
+    }else {
+      Object.keys(this.cargoEditarForm.controls).forEach(field => {
+        const control = this.cargoEditarForm.get(field);
+        if (control) {
+          control.markAsTouched({ onlySelf: true });
+        }
+      });
+    }
 
   }
 
