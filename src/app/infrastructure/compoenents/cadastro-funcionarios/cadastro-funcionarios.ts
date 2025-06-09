@@ -16,7 +16,7 @@ import { Editar } from '../../service/editar';
 export class CadastroFuncionarios {
 
   readonly buscarService = inject(Buscar);
-  readonly salvarService = inject(Salvar);  
+  readonly salvarService = inject(Salvar);
   readonly excluirService = inject(Excluir);
   readonly editarService = inject(Editar)
   readonly formBuilder = inject(FormBuilder);
@@ -57,7 +57,7 @@ export class CadastroFuncionarios {
     this.initFormFuncionario();
     this.buscarService.buscarFuncionarios();
   }
-  
+
   buscarDados() {
     this.buscarService.buscarCargos();
     this.buscarService.buscarSetor();
@@ -94,7 +94,7 @@ export class CadastroFuncionarios {
           console.error('Erro ao salvar Funcionário:', error);
         });
       }else if(this.isEdicao){
-        this.funcionarioComID = {...this.funcionarioComID, 
+        this.funcionarioComID = {...this.funcionarioComID,
             pessoaId: funcionario.pessoaId,
             cargoId: funcionario.cargoId,
             setorId: funcionario.setorId,
@@ -102,7 +102,7 @@ export class CadastroFuncionarios {
             enderecoID: funcionario.enderecoID,
             salario: funcionario.salario,
         }
-        
+
          this.editarService.editarFuncionario( this.funcionarioComID).then(() => {
           this.limparCampos();
           this.buscarDados();
@@ -139,7 +139,50 @@ export class CadastroFuncionarios {
     }
   }
 
-  
+  calcularProporcionalDeFerias(salario: any ){
+    let proporcionalSalario = salario /12;
+    let proporcionalFerias = salario / 3;
+    let calculo =  proporcionalSalario + proporcionalFerias
+    return calculo
+  }
+  calcularTotalProporcionalDeFerias(){
+    let contar = 0;
+    let proporcionalSalario = 0;
+    let proporcionalFerias = 0;
+
+    for(let funcionario of this.funcionarios()){
+      proporcionalSalario += funcionario.salario /12;
+      proporcionalFerias += funcionario.salario /3
+      contar += proporcionalSalario + proporcionalFerias;
+    }
+    return contar
+  }
+
+  calcularTotalSalario(){
+    let contar = 0;
+    for(let funcionario of this.funcionarios()){
+      contar += funcionario.salario
+  }
+    return contar
+  }
+  calcularTotalFGTS(){
+    let contar = 0;
+    for(let funcionario of this.funcionarios()){
+      contar += funcionario.salario*0.08
+  }
+    return contar
+  }
+
+  calcularTotalDecimo(){
+    let contar = 0;
+    for(let funcionario of this.funcionarios()){
+      contar += funcionario.salario/12;
+      console.log("contar decimo terceiro",contar);
+  }
+  return contar
+}
+
+
 
   limparCampos(){
     this.funcionarioForm.reset();
